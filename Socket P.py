@@ -11,6 +11,27 @@ class ITstudent:
         self.courses = []
         self.marks = []
 
+# Function to handle client connections
+def handle_client(client_socket):
+    while True:
+        try:
+            # Receive message from the client
+            message = client_socket.recv(BUFFER_SIZE)
+            
+            if message:
+                # Add the message to the queue
+                message_queue.put(message)
+
+            else:
+                # If no message is received, close the connection
+                client_socket.close()
+                break
+
+        except:
+            # In case of any error, close the connection
+            client_socket.close()
+            break
+
     def generate_random_data(self):
         # Generate random data for the student
         self.name = "Student " + str(random.randint(1, 100))
